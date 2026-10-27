@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net8.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings></PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.4.1" />
+    <Compile Include="../Code/Engine/EventManager.cs" Link="Production/EventManager.cs" />
+    <Compile Include="../Code/Engine/Geometry.cs" Link="Production/Geometry.cs" />
+    <Compile Include="../Code/Game/WorldConfig.cs" Link="Production/WorldConfig.cs" />
+    <Compile Include="../Code/Game/Managers/ScoreManager.cs" Link="Production/ScoreManager.cs" />
+    <Compile Include="../Code/Game/Managers/HighScoreManager.cs" Link="Production/HighScoreManager.cs" />
+    <Compile Include="../Code/Game/Entities/EnemyBrain.cs" Link="Production/EnemyBrain.cs" />
+    <Compile Include="../Code/Game/States/StateManager.cs" Link="Production/StateManager.cs" />
+    <Compile Include="../Code/Game/States/IGameState.cs" Link="Production/IGameState.cs" />
+    <None Include="../Config/world.json" Link="Config/world.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

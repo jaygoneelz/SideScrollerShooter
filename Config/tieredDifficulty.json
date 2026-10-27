@@ -1,0 +1,22 @@
+﻿[
+  {
+    "timeThreshold": 0,
+    "spawnInterval": 1.5,
+    "enemySpeed": 120
+  },
+  {
+    "timeThreshold": 30,
+    "spawnInterval": 1.2,
+    "enemySpeed": 140
+  },
+  {
+    "timeThreshold": 60,
+    "spawnInterval": 0.9,
+    "enemySpeed": 160
+  },
+  {
+    "timeThreshold": 120,
+    "spawnInterval": 0.6,
+    "enemySpeed": 180
+  }
+]

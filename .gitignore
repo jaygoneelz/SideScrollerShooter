@@ -1,0 +1,34 @@
+# IDE state
+.vs/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+# Generated .NET and MonoGame output, at every depth
+[Bb]in/
+[Oo]bj/
+TestResults/
+*.log
+# Local save data
+highscores.json
+# Backups and temporary files
+*.bak
+*.backup
+*.backup.*
+*.tmp
+*~
+Backup/
+Backups/
+# Private coursework; submitted report inclusion awaits confirmation
+coursework-private/
+**/[Rr]eport*.pdf
+**/[Rr]eport*.docx
+**/*[Ss]ubmitted*[Rr]eport*
+# OS metadata
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Private assessment inputs
+submission-original/

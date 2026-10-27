@@ -1,0 +1,17 @@
+PASS: real entity collision detection/response/removal, duplicate contacts, invulnerability, and all three pickup effects.
+PASS: actual player displacement at 30/60/120 Hz and clamping at all four boundaries.
+frame 2: PlayState; subscriptions=5
+capture 02-gameplay-bounds: PlayState
+capture 03-paused: PlayState
+frame 280: MenuState; subscriptions=0
+capture 04-menu-after-exit: MenuState
+frame 320: PlayState; subscriptions=5
+capture 05-sector-one: PlayState
+capture 06-sector-two: PlayState
+capture 07-sector-three: PlayState
+frame 6623: GameOverState; subscriptions=0
+capture 08-mission-complete: GameOverState
+frame 6710: HighScoresState; subscriptions=0
+capture 09-high-scores: HighScoresState
+frame 6800: MenuState; subscriptions=0
+PASS: menu, play, pause, exit/retry, all sectors, victory, score save, table, listener cleanup. Synthetic shield kept the test pilot alive.
