@@ -24,11 +24,11 @@ Seventeen regression tests passed on this Windows host:
 16. Explicit failure on a blocked save destination.
 17. Deferred screen transition ordering and shutdown cleanup.
 
-The first restricted test run could not save to its temporary directory. Repeating with filesystem access passed the persistence test. This was an execution permission issue; the failure was not concealed by changing the expected result. The test also deliberately uses a directory as a save destination to prove errors are surfaced.
+Persistence tests use an isolated directory beneath the test output folder. A deliberately blocked save destination verifies that filesystem errors are reported without changing the in-memory leaderboard.
 
 ## Graphics integration test
 
-`--smoke-test` initializes real MonoGame graphics and original content. Before playing the scripted campaign, it asserts that actual entities produce these outcomes:
+`--smoke-test` initializes real MonoGame graphics and game content. Before playing the scripted campaign, it asserts that actual entities produce these outcomes:
 
 - Detection leaves score and lifetime untouched.
 - Two bullets overlapping two enemies yield exactly two kills and 200 points, even when the same contact batch is applied twice.

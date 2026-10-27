@@ -1,6 +1,6 @@
-# Implementation walkthrough
+# Game architecture
 
-This walkthrough describes the upgraded code rather than retroactively claiming features for the submitted version. The original submission and report are preserved separately. All locations below are relative to the project root.
+This guide explains the game loop, engine services and gameplay systems in SideScrollerShooter. All code paths are relative to the project root.
 
 ## 1. Resource management and audio
 
@@ -20,7 +20,7 @@ The music uses a looped sound-effect instance instead of streamed `Song` playbac
 
 ## 3. Collision geometry and brute-force detection
 
-Every `BaseEntity.Position` is the sprite's centre. `Draw` supplies the texture centre as origin and uses the same rotation and scale as `Bounds`. This corrects the submitted version's mismatch between centre-based drawing and top-left, unrotated rectangles.
+Every `BaseEntity.Position` is the sprite's centre. `Draw` supplies the texture centre as origin and uses the same rotation and scale as `Bounds`. Keeping these transforms consistent aligns the collision rectangles with the rendered sprites.
 
 For texture dimensions `w,h`, rotation `r` and scale `s`, `Geometry.Extents` computes:
 
@@ -39,9 +39,9 @@ halfHeight = (abs(sin(r))*w + abs(cos(r))*h) * s/2
 
 `Game1` explicitly selects `IsFixedTimeStep=true` and a `TargetElapsedTime` of 1/60 second. It passes `ElapsedGameTime.TotalSeconds` to the active state. Movement uses velocity in pixels per second multiplied by `dt`. Spawn timers, enemy state timers, cooldowns, sector countdowns, pickup durations and animation clocks also advance in seconds.
 
-Fixed stepping controls the simulation cadence. Multiplication by elapsed seconds makes a movement value a speed rather than a per-frame displacement. These concepts are complementary; fixed stepping alone is not proof of correct movement. The original player and bullet movement already used elapsed time, despite the marker's comment. The upgraded evidence tests real `Player.Update` displacement at 30, 60 and 120 updates per second and all four boundary clamps.
+Fixed stepping controls the simulation cadence. Multiplication by elapsed seconds makes a movement value a speed rather than a per-frame displacement. These concepts are complementary; fixed stepping alone is not proof of correct movement. The integration checks test real `Player.Update` displacement at 30, 60 and 120 updates per second and all four boundary clamps.
 
-`Ui.Initialize` builds a 128x20 texture containing four distinct 32x20 exhaust frames. `SpriteAnimator` advances at twelve frames per second and uses a loop to catch up if several frames elapse. `Player.Draw` selects a source rectangle for the active frame. The enemy beacon uses an eight-Hz animation clock. Pickups pulse using a seconds-based sine curve, and the background scrolls using elapsed time. These are actual implemented animations; the report does not infer animation merely from movement.
+`Ui.Initialize` builds a 128x20 texture containing four distinct 32x20 exhaust frames. `SpriteAnimator` advances at twelve frames per second and uses a loop to catch up if several frames elapse. `Player.Draw` selects a source rectangle for the active frame. The enemy beacon uses an eight-Hz animation clock. Pickups pulse using a seconds-based sine curve, and the background scrolls using elapsed time. The sprite-sheet frames, beacon and pulsing pickups provide visual feedback independently of object movement.
 
 ## 5. Data-driven world
 
@@ -131,7 +131,7 @@ The default campaign adds three sectors with different formations, patterns, spa
 
 ![Third sector and state diagnostics](screenshots/sector-three.png)
 
-The graphics test exercises every sector under synthetic input and a refreshed shield; this proves navigation and progression, not that a human can comfortably complete the campaign. Normal play has no test shield. Human difficulty evaluation, perceptual audio checks and hardware coverage remain separate tasks. Collision remains brute force and conservative AABB, with no swept collision for extreme speeds. There is no claim of a guaranteed mark, measured GPU speedup or production-ready networking.
+The graphics test exercises every sector under synthetic input and a refreshed shield; this proves navigation and progression, not that a human can comfortably complete the campaign. Normal play has no test shield. Human difficulty evaluation, perceptual audio checks and hardware coverage remain separate tasks. Collision remains brute force and conservative AABB, with no swept collision for extreme speeds. GPU profiling and network play are outside the current implementation.
 
 ## References
 

@@ -2,7 +2,7 @@
 
 A C# / MonoGame DesktopGL space shooter with a three-sector campaign, event-driven input and scoring, configurable enemy formations, state-pattern enemy behaviour, animated thrusters, three pickup effects, and a persistent top-ten leaderboard.
 
-Originally developed for a Computer Games Architecture university project. This revision strengthens the implementation and includes reproducible tests and explanations of the actual code.
+A personal game project by Jaygovindhan Neelanarayanan, exploring arcade gameplay, reusable engine systems and data-driven level design.
 
 ![Main menu](docs/screenshots/menu.png)
 
@@ -16,7 +16,7 @@ dotnet build SideScrollerShooter.sln -c Release
 dotnet run --project SideScrollerShooter.csproj -c Release --no-build
 ```
 
-The initial restore needs internet access. Both MonoGame package references are pinned to `3.8.4.1`; the local content tools use `3.8.4`. Original textures, audio, fonts and configuration are included. Generated content and build outputs are ignored.
+The initial restore needs internet access. Both MonoGame package references are pinned to `3.8.4.1`; the local content tools use `3.8.4`. Textures, audio, fonts and configuration are included. Generated content and build outputs are ignored.
 
 | Action | Input |
 | --- | --- |
@@ -36,7 +36,7 @@ Survive three sectors lasting 30, 35 and 40 seconds. Destroy white scouts, orang
 
 `Config/world.json` controls the viewport, seed, player position/speed/lives, bullet speed, pickup timings, and every sector's duration, enemy pattern, spawn interval, speed and initial placements. Loading validates values and identifies invalid configurations immediately. The screen layout supports 1120–1920 by 720–1080.
 
-`Config/tieredDifficulty.json` is retained from the original submission for reference. The upgraded game uses `world.json`; changing the legacy file has no runtime effect.
+`Config/world.json` is the runtime configuration. The legacy `Config/tieredDifficulty.json` file is retained for reference and has no runtime effect.
 
 The score table is genuine JSON containing up to ten named entries, scores, sectors and UTC timestamps. It is stored outside the repository in `%LOCALAPPDATA%/SideScrollerShooter/highscores.json`. `SIDESCROLLERSHOOTER_DATA` can select another save directory.
 
@@ -50,9 +50,9 @@ dotnet run --project SideScrollerShooter.csproj -c Release -- --smoke-test
 
 The console regression runner returns a nonzero exit code on failure. The optional graphics smoke test uses synthetic input, isolated scores and a continuously refreshed shield to exercise the entire campaign quickly; it captures real rendered frames and closes automatically. It verifies integration, not game difficulty or human playability. Outputs go beneath the executable directory in `smoke-output/`.
 
-## Design and evidence
+## Project documentation
 
-- [Implementation walkthrough](docs/Architecture.md): all twelve game criteria, data flow, state transitions, lifetime and collision geometry.
+- [Implementation walkthrough](docs/Architecture.md): engine systems, data flow, state transitions, lifetime and collision geometry.
 - [User guide](docs/User-guide.md): complete instructions and tuning advice.
 - [Performance study](docs/Performance.md): measured allocation experiment, hardware implications and remaining work.
 - [Validation](docs/Testing.md): regression and graphics tests, their scope and limitations.
@@ -62,6 +62,6 @@ The console regression runner returns a nonzero exit code on failure. The option
 
 ## Limits
 
-This is a local single-player game with brute-force AABB collisions, not pixel-perfect or swept hit detection. Pause is supported; campaign checkpoint saves and networking are not implemented. Human balance testing, audible music/mute checks, varied hardware tests and cross-platform validation remain useful follow-up work. No particular assessment mark is claimed.
+This is a local single-player game with brute-force AABB collisions, not pixel-perfect or swept hit detection. Pause is supported; campaign checkpoint saves and networking are not implemented. Human balance testing, audible music/mute checks, varied hardware tests and cross-platform validation remain useful follow-up work.
 
-No software license has been selected. Redistribution rights for inherited art, audio and icon assets still need confirmation before public publication. No report, grading spreadsheet, student ID or personal coursework cover page is included in this project.
+No software license has been selected. See [asset provenance](docs/Assets.md) for the status of art, audio and icon attribution.

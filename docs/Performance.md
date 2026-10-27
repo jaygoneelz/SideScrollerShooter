@@ -1,10 +1,10 @@
 # Performance and hardware study
 
-## Question grounded in this game
+## Collision-loop allocation
 
-The submitted collision loop copied the enemy list for every bullet using `ToList()`. With B bullets and E enemies, it allocated B enemy-reference arrays in addition to the outer list snapshot, while still performing B x E overlap checks. This is a concrete source of avoidable allocation, not a speculative claim about a large engine.
+Copying the enemy list for every bullet with `ToList()` allocates B enemy-reference arrays in addition to the outer list snapshot, while still performing B x E overlap checks. The benchmark compares that allocation-heavy approach with direct traversal.
 
-The upgraded detector iterates read-only lists directly. It records contacts, applies responses separately, then removes inactive entities. That ordering makes snapshots unnecessary: no detection loop mutates the collection it is traversing. A reusable contact list retains its capacity between frames. Dispatch still snapshots event handlers for safe unsubscription; this is a deliberate smaller allocation that has not been optimized away.
+The game detector iterates read-only lists directly. It records contacts, applies responses separately, then removes inactive entities. That ordering makes snapshots unnecessary: no detection loop mutates the collection it is traversing. A reusable contact list retains its capacity between frames. Dispatch still snapshots event handlers for safe unsubscription; this is a deliberate smaller allocation that has not been optimized away.
 
 ## Reproducible experiment
 
@@ -18,14 +18,14 @@ The benchmark creates 80 bullet rectangles and 40 enemy rectangles using seed 37
 
 | Version | Total CPU elapsed | Allocated on benchmark thread | Hits |
 | --- | ---: | ---: | ---: |
-| Snapshot lists, reproducing submitted copy pattern | 286.12 ms | 1,140,320,040 bytes | 380,000 |
+| Snapshot list traversal | 286.12 ms | 1,140,320,040 bytes | 380,000 |
 | Direct list traversal | 88.74 ms | 40 bytes | 380,000 |
 
 Observed on this Windows x64 host on 27 October 2026, Release build, .NET 8 target running with the installed .NET runtime. These are one experiment's results, not an average over multiple machines. Stopwatch creation accounts for the small direct-loop allocation. This benchmark isolates rectangle traversal and copies; it does not run full entity behaviour, GPU drawing, contact buffering or audio. Therefore its ratio must not be reported as whole-game acceleration or an FPS guarantee. Subsequent measurements can vary with JIT, background activity and hardware.
 
 ## Why this relates to hardware
 
-The old version allocates and writes many temporary arrays of object references. That consumes memory bandwidth and later creates work for the garbage collector. Removing those copies avoids unnecessary memory traffic and allocation work while preserving exactly the same brute-force algorithm. A C# list provides a contiguous array of references; the entities themselves still occupy separate managed objects. This change does not magically convert them into a cache-local structure-of-arrays layout.
+The snapshot version allocates and writes many temporary arrays of object references. That consumes memory bandwidth and later creates work for the garbage collector. Removing those copies avoids unnecessary memory traffic and allocation work while preserving exactly the same brute-force algorithm. A C# list provides a contiguous array of references; the entities themselves still occupy separate managed objects. This change does not magically convert them into a cache-local structure-of-arrays layout.
 
 An axis-aligned rectangle test is inexpensive; at the intended modest enemy count, avoiding repeated collection copies is a proportionate first optimization. The game caps active enemies at 40. A 60-Hz target permits about 16.67 ms per simulation interval, but recent CPU timings alone do not establish the full CPU/GPU frame budget on another machine.
 

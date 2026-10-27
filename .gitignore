@@ -20,15 +20,12 @@ highscores.json
 *~
 Backup/
 Backups/
-# Private coursework; submitted report inclusion awaits confirmation
-coursework-private/
+# Private documents
+private/
+private-data/
 **/[Rr]eport*.pdf
 **/[Rr]eport*.docx
-**/*[Ss]ubmitted*[Rr]eport*
 # OS metadata
 .DS_Store
 Thumbs.db
 Desktop.ini
-
-# Private assessment inputs
-submission-original/
