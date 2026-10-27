@@ -6,7 +6,11 @@ A personal game project by Jaygovindhan Neelanarayanan, exploring arcade gamepla
 
 ![Main menu](docs/screenshots/menu.png)
 
-## Play
+## Play in your browser
+
+[Launch ORBIT / 379](https://jaygoneelz.github.io/games/sidescroller-shooter/) — no download required. The Canvas browser edition shares the desktop art, audio and world configuration, with keyboard/touch controls and browser-local records. [Browser source and tests](Web/README.md).
+
+## Play on desktop
 
 Install the .NET 8 SDK. Windows and Arial are required for the verified build; other operating systems have not been tested. Open `SideScrollerShooter.sln` in Visual Studio with .NET 8 support, or run these commands from the repository root:
 
